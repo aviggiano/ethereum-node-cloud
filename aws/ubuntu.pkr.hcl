@@ -1,3 +1,7 @@
+variable "namespace" {
+  type = string
+}
+
 packer {
   required_plugins {
     amazon = {

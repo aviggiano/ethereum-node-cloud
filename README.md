@@ -23,6 +23,14 @@ terraform apply
 
 TODO
 
+## Usage
+
+```bash
+# Logs
+journalctl -f -u geth
+journalctl -f -u lighthouse
+```
+
 ## References
 
 - https://pawelurbanek.com/ethereum-node-aws
