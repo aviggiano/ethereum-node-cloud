@@ -1,7 +1,12 @@
+data "hcloud_image" "this" {
+  with_selector = "name=${var.namespace}-snapshot"
+  most_recent = true
+}
+
 resource "hcloud_server" "this" {
   name        = "${var.namespace}-server"
-  image       = "ubuntu-22.04"
-  server_type = "cx11"
+  image       = data.hcloud_image.this.id
+  server_type = "cx41"
   location    = "hel1"
   public_net {
     ipv4_enabled = true
