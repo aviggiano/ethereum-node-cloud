@@ -13,7 +13,7 @@ packer {
 
 source "amazon-ebs" "ubuntu" {
   ami_name      = "${var.namespace}-ami"
-  instance_type = "c5.large"
+  instance_type = "c5.xlarge"
   region        = "us-east-1"
   source_ami_filter {
     filters = {
@@ -32,7 +32,6 @@ build {
   sources = [
     "source.amazon-ebs.ubuntu"
   ]
-  force_deregister = true
 
   provisioner "shell" {
     script = "../setup.sh"

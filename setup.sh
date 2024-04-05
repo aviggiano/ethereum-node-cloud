@@ -21,7 +21,7 @@ sudo apt-get update
 sudo apt-get upgrade -y
 sudo apt-get install -y ethereum
 
-# Uses root user
+sudo su <<EOF2
 cat > /lib/systemd/system/geth.service << EOF
 [Unit]
 
@@ -40,6 +40,7 @@ RestartSec=5s
 [Install]
 WantedBy=multi-user.target
 EOF
+EOF2
 
 sudo systemctl enable geth
 sudo systemctl start geth
@@ -49,6 +50,7 @@ tar zxvf lighthouse-v5.1.3-x86_64-unknown-linux-gnu.tar.gz
 rm lighthouse-v5.1.3-x86_64-unknown-linux-gnu.tar.gz
 sudo mv lighthouse /usr/local/bin/
 
+sudo su <<EOF2
 cat > /lib/systemd/system/lighthouse.service << EOF
 [Unit]
 
@@ -67,6 +69,7 @@ RestartSec=5s
 [Install]
 WantedBy=multi-user.target
 EOF
+EOF2
 
 sudo systemctl enable lighthouse
 sudo systemctl start lighthouse
