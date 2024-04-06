@@ -30,8 +30,6 @@ journalctl -f -u reth
 journalctl -f -u lighthouse
 ```
 
-By default, it installs both geth and reth, but starts only geth
-
 ## References
 
 - https://pawelurbanek.com/ethereum-node-aws
