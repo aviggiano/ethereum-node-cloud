@@ -3,6 +3,7 @@ set -eux
 sudo apt-get update
 sudo apt-get install -y ufw
 sudo apt-get install -y net-tools
+sudo apt-get install -y lz4 # install lz4 for decompression
 sudo ufw disable
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
@@ -35,7 +36,7 @@ Wants=network-online.target
 
 WorkingDirectory=/root
 User=root
-ExecStart=/usr/local/bin/reth node --full
+ExecStart=/usr/local/bin/reth node
 Restart=always
 RestartSec=5s
 
@@ -44,8 +45,8 @@ WantedBy=multi-user.target
 EOF
 EOF2
 
-sudo systemctl enable reth
-sudo systemctl start reth
+# sudo systemctl enable reth
+# sudo systemctl start reth
 
 echo "Install lighthouse"
 
@@ -75,5 +76,5 @@ WantedBy=multi-user.target
 EOF
 EOF2
 
-sudo systemctl enable lighthouse
-sudo systemctl start lighthouse
+# sudo systemctl enable lighthouse
+# sudo systemctl start lighthouse

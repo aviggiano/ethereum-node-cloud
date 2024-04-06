@@ -28,6 +28,17 @@ resource "aws_instance" "this" {
     volume_type = "gp3"
   }
 
+  user_data = <<EOF
+#!/bin/bash
+set -eux
+mkdir -p ~/.local/share/reth/mainnet/
+wget -nv -O - https://downloads.merkle.io/reth-2024-04-05.tar.lz4 | tar -I lz4 -xvf - -C ~/.local/share/reth/mainnet/
+sudo systemctl enable reth
+sudo systemctl start reth
+sudo systemctl enable lighthouse
+sudo systemctl start lighthouse
+EOF
+
   tags = {
     Name = "${var.namespace}-instance"
   }
