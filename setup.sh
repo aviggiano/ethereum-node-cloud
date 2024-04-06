@@ -7,7 +7,7 @@ sudo ufw disable
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
 sudo ufw allow 22/tcp # SSH access
-sudo ufw allow 30303 # Geth P2P
+sudo ufw allow 30303 # P2P
 sudo ufw allow 9000 # Lighthouse P2P
 sudo ufw allow 80 # HTTP
 sudo ufw allow 443 # HTTPS
@@ -16,16 +16,18 @@ sudo ufw enable
 sudo ufw status verbose
 sudo netstat -tlnp
 
-yes | sudo add-apt-repository ppa:ethereum/ethereum
-sudo apt-get update
-sudo apt-get upgrade -y
-sudo apt-get install -y ethereum
+echo "Install reth"
+
+wget https://github.com/paradigmxyz/reth/releases/download/v0.2.0-beta.5/reth-v0.2.0-beta.5-x86_64-unknown-linux-gnu.tar.gz
+tar zxvf reth-v0.2.0-beta.5-x86_64-unknown-linux-gnu.tar.gz
+rm reth-v0.2.0-beta.5-x86_64-unknown-linux-gnu.tar.gz
+sudo mv reth /usr/local/bin/
 
 sudo su <<EOF2
-cat > /lib/systemd/system/geth.service << EOF
+cat > /lib/systemd/system/reth.service << EOF
 [Unit]
 
-Description=Geth Full Node
+Description=Reth Full Node
 After=network-online.target
 Wants=network-online.target
 
@@ -33,7 +35,7 @@ Wants=network-online.target
 
 WorkingDirectory=/root
 User=root
-ExecStart=/usr/bin/geth --http --http.addr "0.0.0.0" --http.port "8545" --http.corsdomain "*" --http.api personal,eth,net,web3,debug,txpool,admin --authrpc.jwtsecret /tmp/jwtsecret --ws --ws.port 8546 --ws.api eth,net,web3,txpool,debug --ws.origins="*" --metrics --maxpeers 150 
+ExecStart=/usr/local/bin/reth node --full
 Restart=always
 RestartSec=5s
 
@@ -42,8 +44,10 @@ WantedBy=multi-user.target
 EOF
 EOF2
 
-sudo systemctl enable geth
-sudo systemctl start geth
+sudo systemctl enable reth
+sudo systemctl start reth
+
+echo "Install lighthouse"
 
 wget https://github.com/sigp/lighthouse/releases/download/v5.1.3/lighthouse-v5.1.3-x86_64-unknown-linux-gnu.tar.gz
 tar zxvf lighthouse-v5.1.3-x86_64-unknown-linux-gnu.tar.gz
