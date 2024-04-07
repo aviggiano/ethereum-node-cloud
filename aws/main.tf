@@ -18,7 +18,7 @@ resource "aws_security_group" "this" {
 
 resource "aws_instance" "this" {
   ami           = var.ami_id
-  instance_type = "m5.xlarge"
+  instance_type = "m7i.xlarge"
 
   vpc_security_group_ids      = [aws_security_group.this.id]
   associate_public_ip_address = true
@@ -26,8 +26,10 @@ resource "aws_instance" "this" {
   root_block_device {
     # https://paradigmxyz.github.io/reth/run/pruning.html
     # https://ycharts.com/indicators/ethereum_chain_full_sync_data_size
+    # https://gist.github.com/yorickdowne/f3a3e79a573bf35767cd002cc977b038
     volume_size = 2500
     volume_type = "gp3"
+    iops = 10000
   }
 
   user_data = <<EOF
