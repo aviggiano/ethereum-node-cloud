@@ -24,7 +24,9 @@ resource "aws_instance" "this" {
   associate_public_ip_address = true
 
   root_block_device {
-    volume_size = 1400 # https://ycharts.com/indicators/ethereum_chain_full_sync_data_size
+    # https://paradigmxyz.github.io/reth/run/pruning.html
+    # https://ycharts.com/indicators/ethereum_chain_full_sync_data_size
+    volume_size = 2500
     volume_type = "gp3"
   }
 
