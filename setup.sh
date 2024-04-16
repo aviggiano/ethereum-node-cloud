@@ -4,6 +4,7 @@ sudo apt-get update
 sudo apt-get install -y ufw
 sudo apt-get install -y net-tools
 sudo apt-get install -y lz4 # install lz4 for decompression
+sudo apt-get install -y python3-pip
 sudo ufw disable
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
@@ -36,7 +37,7 @@ Wants=network-online.target
 
 WorkingDirectory=/root
 User=root
-ExecStart=/usr/local/bin/reth node
+ExecStart=/usr/local/bin/reth node --http --http.api "admin,debug,eth,net,trace,txpool,web3,rpc"
 Restart=always
 RestartSec=5s
 
@@ -67,7 +68,7 @@ Wants=network-online.target
 
 WorkingDirectory=/root
 User=root
-ExecStart=/usr/local/bin/lighthouse bn --network mainnet --execution-endpoint http://localhost:8551 --execution-jwt /tmp/jwtsecret --checkpoint-sync-url https://mainnet.checkpoint.sigp.io --disable-deposit-contract-sync
+ExecStart=/usr/local/bin/lighthouse bn --network mainnet --execution-endpoint http://localhost:8551 --execution-jwt /root/.local/share/reth/mainnet/jwt.hex --checkpoint-sync-url https://mainnet.checkpoint.sigp.io --disable-deposit-contract-sync
 Restart=always
 RestartSec=5s
 
