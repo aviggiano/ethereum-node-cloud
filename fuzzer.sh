@@ -24,6 +24,7 @@ export PATH="$PATH:/usr/local/go/bin"
 echo "Install medusa"
 wget https://github.com/crytic/medusa/releases/download/v0.1.3/medusa-linux-x64.tar.gz -O medusa.tar.gz
 tar -xvkf medusa.tar.gz
+rm medusa.tar.gz
 sudo mv medusa /usr/bin/
 
 echo "Install foundry"
